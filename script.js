@@ -1,43 +1,42 @@
-// Function to simulate resolving a promise with an array of numbers
 function getNumbers() {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve([1, 2, 3, 4]), 3000);
-  });
-}
-
-// Function to update the content of the "output" div
-function updateOutput(text) {
-  const outputElement = document.getElementById("output");
-  outputElement.textContent = text;
-}
-
-// Main function to handle promise chaining
-function manipulateData() {
-  getNumbers()
-    .then((numbers) => {
-      // Filter out odd numbers
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          const evens = numbers.filter((num) => num % 2 === 0);
-          updateOutput(evens.join(", "));
-          resolve(evens);
-        }, 1000);
-      });
-    })
-    .then((evenNumbers) => {
-      // Multiply even numbers by 2
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          const multiplied = evenNumbers.map((num) => num * 2);
-          updateOutput(multiplied.join(", "));
-          resolve(multiplied);
-        }, 2000);
-      });
-    })
-    .catch((error) => {
-      console.error("Error processing the data:", error);
+    return new Promise((resolve) => {
+        setTimeout(() => resolve([1, 2, 3, 4]), 0); // Resolves with numbers
     });
 }
 
-// Start the process
+function updateText(text) {
+    const output = document.getElementById("output");
+    output.textContent = text;
+}
+
+function manipulateData() {
+    getNumbers()
+        .then((numbers) => {
+            // Step 1: Filter even numbers
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    const evenNumbers = numbers.filter((num) => num % 2 === 0);
+                    console.log("Filtered even numbers:", evenNumbers); // Debugging
+                    updateText(evenNumbers.join(", "));
+                    resolve(evenNumbers);
+                }, 1000);
+            });
+        })
+        .then((evenNumbers) => {
+            // Step 2: Multiply by 2
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    const multipliedNumbers = evenNumbers.map((num) => num * 2);
+                    console.log("Multiplied numbers:", multipliedNumbers); // Debugging
+                    updateText(multipliedNumbers.join(", "));
+                    resolve(multipliedNumbers);
+                }, 2000);
+            });
+        })
+        .catch((err) => {
+            console.error("Error processing data:", err);
+        });
+}
+
+// Invoke the function
 manipulateData();
