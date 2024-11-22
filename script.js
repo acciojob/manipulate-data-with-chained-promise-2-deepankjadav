@@ -1,6 +1,6 @@
 function getNumbers() {
     return new Promise((resolve) => {
-        setTimeout(() => resolve([1, 2, 3, 4]), 0); // Resolves with numbers
+        setTimeout(() => resolve([1, 2, 3, 4]), 3000); // Resolves with numbers
     });
 }
 
