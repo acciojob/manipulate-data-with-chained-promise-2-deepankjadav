@@ -1,42 +1,49 @@
-function getNumbers() {
+//your JS code here. If required.
+// Function to return a promise that resolves with manipulated array after 3 seconds
+function manipulateArray(inputArray) {
     return new Promise((resolve) => {
-        setTimeout(() => resolve([1, 2, 3, 4]), 3000); // Resolves with numbers
+        setTimeout(() => {
+            resolve(inputArray);
+        }, 3000);
     });
 }
 
-function updateText(text) {
-    const output = document.getElementById("output");
-    output.textContent = text;
+// Function to filter out odd numbers and update the output div after 1 second
+function filterOddNumbers(array) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            const filteredArray = array.filter(num => num % 2 === 0);
+            resolve(filteredArray);
+        }, 1000);
+    });
 }
 
-function manipulateData() {
-    getNumbers()
-        .then((numbers) => {
-            // Step 1: Filter even numbers
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    const evenNumbers = numbers.filter((num) => num % 2 === 0);
-                    console.log("Filtered even numbers:", evenNumbers); // Debugging
-                    updateText(evenNumbers.join(", "));
-                    resolve(evenNumbers);
-                }, 1000);
-            });
-        })
-        .then((evenNumbers) => {
-            // Step 2: Multiply by 2
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    const multipliedNumbers = evenNumbers.map((num) => num * 2);
-                    console.log("Multiplied numbers:", multipliedNumbers); // Debugging
-                    updateText(multipliedNumbers.join(", "));
-                    resolve(multipliedNumbers);
-                }, 2000);
-            });
-        })
-        .catch((err) => {
-            console.error("Error processing data:", err);
-        });
+// Function to multiply even numbers by 2 and update the output div after 2 seconds
+function multiplyEvenNumbers(array) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            const multipliedArray = array.map(num => (num % 2 === 0) ? num * 2 : num);
+            resolve(multipliedArray);
+        }, 2000);
+    });
 }
 
-// Invoke the function
-manipulateData();
+// Function to update the text of an HTML element with the given ID
+function updateOutputText(elementId, text) {
+    document.getElementById(elementId).innerText = text;
+}
+
+// Initial array
+const inputArray = [1, 2, 3, 4];
+
+// Chain promises to manipulate the array and update the output div
+manipulateArray(inputArray)
+    .then(filterOddNumbers)
+    .then(multiplyEvenNumbers)
+    .then(resultArray => {
+        // Update the text of the HTML element with ID "output"
+        updateOutputText("output", JSON.stringify(resultArray));
+    })
+    .catch(error => {
+        console.error("Error:", error);
+    });
